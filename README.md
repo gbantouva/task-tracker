@@ -1,88 +1,64 @@
 # Task Tracker
 
-A simple internal task tracking web application that allows users to create and view tasks through a clean, user-friendly interface.
+A full-stack internal task tracking web application built with React and FastAPI.
 
 ## Tech Stack
 
-- **Backend:** Python, FastAPI, SQLAlchemy, SQLite
-- **Frontend:** React, Vite, React Router, Axios
-- **Containerization:** Docker, Docker Compose
+- **Frontend:** React (Vite)
+- **Backend:** Python + FastAPI
+- **Database:** In-memory (Python list)
+- **Containerization:** Docker + Docker Compose
 
-## Project Structure
+## Running with Docker (recommended)
 
-```
-task-tracker/
-├── backend/
-│   ├── main.py          # API endpoints
-│   ├── models.py        # Database table definitions
-│   ├── database.py      # Database connection setup
-│   ├── schemas.py       # Request/response validation
-│   ├── requirements.txt # Python dependencies
-│   └── Dockerfile
-├── frontend/
-│   ├── src/
-│   │   ├── pages/
-│   │   │   ├── TaskList.jsx    # Displays all tasks
-│   │   │   ├── CreateTask.jsx  # Task creation form
-│   │   │   └── TaskDetail.jsx  # Single task view
-│   │   ├── api.js       # API call functions
-│   │   ├── App.jsx      # Routing and navigation
-│   │   └── main.jsx     # React entry point
-│   └── Dockerfile
-└── docker-compose.yml
+Make sure you have Docker Desktop installed and running, then:
+```bash
+docker compose up --build
 ```
 
-## API Endpoints
+Then open your browser at:
+- App: http://localhost:5173
+- API docs: http://localhost:8000/docs
 
-| Method | Endpoint | Description |
-|--------|----------|-------------|
-| POST | `/tasks` | Create a new task |
-| GET | `/tasks` | Retrieve all tasks |
-| GET | `/tasks/{id}` | Retrieve a single task |
+To stop the app press `Ctrl+C` and run:
+```bash
+docker compose down
+```
 
-## Run Locally (without Docker)
+## Running Locally (without Docker)
 
-### Prerequisites
-- Python 3.11+
-- Node.js 22+
-
-### Backend
+**Backend:**
 ```bash
 cd backend
 pip install -r requirements.txt
 uvicorn main:app --reload
 ```
-Backend runs at [**http://localhost:8000**](http://localhost:8000)  
-Interactive API docs available at [**http://localhost:8000/docs**](http://localhost:8000/docs)
 
-### Frontend
+**Frontend** (in a second terminal):
 ```bash
 cd frontend
 npm install
 npm run dev
 ```
-Frontend runs at [**http://localhost:5173**](http://localhost:5173)
 
-## Run with Docker
+## Features
 
-### Prerequisites
-- Docker Desktop installed and running
-
-### Steps
-```bash
-docker-compose up --build
-```
-Visit [**http://localhost:5173**](http://localhost:5173)
-
-To stop the containers:
-```bash
-docker-compose down
-```
+- Create tasks with a title, description, and status
+- View all tasks in a list
+- Click any task to view its details
+- Status options: Open, In Progress, Completed
 
 ## Design Choices
 
-- **SQLite** was chosen for simplicity — no external database setup required. Data persists in a `tasks.db` file inside the backend folder.
-- **FastAPI** was chosen for its simplicity, automatic API documentation, and native Python type validation via Pydantic.
-- **Vite** was used instead of Create React App for faster development build times.
-- **CORS** is enabled on the backend to allow the frontend to communicate with it during development.
-- Task statuses are limited to: `Open`, `In Progress`, `Completed`.
+- Tasks are stored in memory (a Python list) for simplicity — no database setup required
+- Each task is assigned a UUID on creation for unique identification
+- CORS is enabled on the backend so the frontend can communicate with it across ports
+- The frontend is a single-page React app with view-based navigation (no router needed for this scale)
+
+## API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /tasks | Get all tasks |
+| GET | /tasks/{id} | Get a single task |
+| POST | /tasks | Create a new task |
