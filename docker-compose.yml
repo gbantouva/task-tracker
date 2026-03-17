@@ -1,14 +1,13 @@
-version: "3.8"
 
 services:
   backend:
     build: ./backend
     ports:
-      - "8000:8000" # your machine:container
+      - "8000:8000" # machine:container
 
   frontend:
     build: ./frontend
     ports:
-      - "5173:5173" # your machine:container
+      - "5173:5173" # machine:container
     depends_on:
       - backend # frontend starts after backend
