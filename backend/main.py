@@ -38,7 +38,7 @@ def get_task(task_id: str):
 # POST /tasks : create a new task
 @app.post("/tasks")
 def create_task(task: Task):
-    new_task = task.dict()
+    new_task = task.model_dump()
     new_task["id"] = str(uuid.uuid4())  # give it a unique ID
     tasks.append(new_task)
     return new_task
