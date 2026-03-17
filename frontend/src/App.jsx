@@ -9,7 +9,7 @@ function App() {
   const [form, setForm] = useState({ title: "", description: "", status: "Open" });
   const [view, setView] = useState("list"); // "list" | "create" | "detail"
 
-  // Load all tasks when the page loads
+  // Load all tasks when the page loads for the first time
   useEffect(() => {
     fetchTasks();
   }, []);
@@ -34,8 +34,8 @@ function App() {
   };
 
   return (
-    <div style={{ maxWidth: 700, margin: "40px auto", fontFamily: "sans-serif", padding: "0 20px" }}>
-      <h1>📋 Task Tracker</h1>
+    <div style={{ maxWidth: 700, margin: "30px auto", fontFamily: "sans-serif", padding: "0 20px" }}>
+      <h1>Task Tracker</h1>
 
       {/* Navigation */}
       <div style={{ marginBottom: 20 }}>
@@ -47,12 +47,12 @@ function App() {
       {view === "list" && (
         <div>
           <h2>Tasks ({tasks.length})</h2>
-          {tasks.length === 0 && <p>No tasks yet. Create one!</p>}
+          {tasks.length === 0 && <p>There aren't any tasks yet.</p>}
           {tasks.map(task => (
             <div key={task.id} style={cardStyle} onClick={() => viewTask(task.id)}>
-              <strong>{task.title}</strong>
+              <strong style={{ flex: 1 }}>{task.title}</strong>
               <span style={badgeStyle(task.status)}>{task.status}</span>
-              <p style={{ margin: "6px 0 0", color: "#666", fontSize: 14 }}>{task.description}</p>
+              <span style={{ flex: 1, textAlign: "right", color: "#666", fontSize: 14 }}>{task.description}</span>
             </div>
           ))}
         </div>
@@ -72,7 +72,7 @@ function App() {
             placeholder="Description"
             value={form.description}
             onChange={e => setForm({ ...form, description: e.target.value })}
-            style={{ ...inputStyle, height: 100 }}
+            style={{ ...inputStyle, height: 70 }}
           />
           <select
             value={form.status}
@@ -96,7 +96,7 @@ function App() {
           <h2>{selectedTask.title}</h2>
           <p><strong>Status:</strong> <span style={badgeStyle(selectedTask.status)}>{selectedTask.status}</span></p>
           <p><strong>Description:</strong><br />{selectedTask.description}</p>
-          <p style={{ color: "#999", fontSize: 13 }}>ID: {selectedTask.id}</p>
+          <p style={{ color: "#666", fontSize: 13 }}>ID: {selectedTask.id}</p>
         </div>
       )}
     </div>
@@ -106,7 +106,7 @@ function App() {
 // Styles
 const btnStyle = { marginRight: 10, padding: "8px 16px", cursor: "pointer", borderRadius: 6, border: "1px solid #ccc" };
 const inputStyle = { display: "block", width: "100%", marginBottom: 12, padding: 10, fontSize: 15, borderRadius: 6, border: "1px solid #ccc", boxSizing: "border-box" };
-const cardStyle = { border: "1px solid #ddd", borderRadius: 8, padding: 16, marginBottom: 12, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" };
+const cardStyle = { border: "1px solid #ddd", borderRadius: 8, padding: 16, marginBottom: 12, cursor: "pointer", display: "flex", justifyContent: "space-between", alignItems: "center",};
 const badgeStyle = (status) => ({
   padding: "3px 10px", borderRadius: 20, fontSize: 13, fontWeight: "bold",
   background: status === "Completed" ? "#d4edda" : status === "In Progress" ? "#fff3cd" : "#cce5ff",
